@@ -12,4 +12,3 @@
 1. `./import.sh` ==> Create a 3DCityDB Container with the LoD3 dataset.
 2. `./export.sh myCustomImage/impexp` Try a CityGML export with a custom image.
 3. Check the exported data in `./temp/`
-4.
