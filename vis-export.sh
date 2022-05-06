@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-IMAGE=impexp
-EXPORT_FOLDER=temp/glTF
+IMAGE=${1:-3dcitydb/impexp}
+EXPORT_FOLDER=${2:-temp/glTF}
 
 if [ -d "$EXPORT_FOLDER" ]; then
   rm -rf "$EXPORT_FOLDER"/*
 else
-  mkdir -p"$EXPORT_FOLDER"
+  mkdir -p "$EXPORT_FOLDER"
 fi
 
 docker run -i -t --rm --name impexp \
@@ -24,4 +24,4 @@ docker run -i -t --rm --name impexp \
     --gltf-embed-textures \
     --gltf-draco-compression \
     -O 0 \
-    -o /data/temp/glTF/railway-lod3.kml
+    -o /data/"$EXPORT_FOLDER"/railway-lod3.kml

@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
-# IMAGE=3dcitydb/impexp:latest-alpine
-IMAGE=impexp
-EXPORT_FOLDER=temp/citygml
+IMAGE=${1:-3dcitydb/impexp}
+EXPORT_FOLDER=${2:-temp/citygml}
 
 if [ -d "$EXPORT_FOLDER" ]; then
   rm -rf "$EXPORT_FOLDER"/*

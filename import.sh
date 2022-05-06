@@ -1,23 +1,26 @@
 #!/usr/bin/env bash
 
-IMAGE=impexp
+IMAGE_IMPEXP=${1:-3dcitydb/impexp:latest-alpine}
+DATASET=${2:-data/citygml/Railway_Scene_LoD3.zip}
+IMAGE_CITYDB=${3:-3dcitydb/3dcitydb-pg:latest-alpine}
+SRID=${4:-3068}
 
 ./cleanup.sh
 ./network-create.sh
-./citydb-create.sh
+./citydb-create.sh "$IMAGE_CITYDB" "$SRID"
 
-# ./wait-for-psql.sh 60 localhost 5432 postgres changeMe
-
-docker run --rm --name wait-for-psql \
+# Wait for psql to become available
+docker run --rm -t --name wait-for-psql \
   --network citydb-net \
   bwibo/wait-for-psql 60 citydb 5432 postgres changeMe
 
+# Import LoD3 Railway example
 docker run -i -t --rm --name impexp \
     --network citydb-net \
     -v "$PWD":/data \
-  "$IMAGE" import \
+  "$IMAGE_IMPEXP" import \
     -H citydb \
     -d postgres \
     -u postgres \
     -p changeMe \
-    /data/data/citygml/Railway_Scene_LoD3.zip
+    "/data/$DATASET"
